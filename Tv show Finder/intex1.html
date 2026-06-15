@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TO FIND MOVE SHOWS </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+    <h1> TO FIND THE SERIES </h1>
+    <input type="text" id="movietext" placeholder="ENTER  TV SHOW NAME " ><br>
+    <br>
+    <button onclick="search()"> SEARCH </button> <br>
+    <br>
+    <h1 id="showname"> SHOW NAME </h1>
+    <img id="poster" width="200">
+
+    <p>
+        <b> LANGUAGE :</b>
+        <span id="lang"> loding...</span>
+    </p>
+<p>
+        <b> RATING :</b>
+        <span id="rate"> loding...</span>
+    </p>
+<p>
+        <b> RELEASE DATE  :</b>
+        <span id="release"> loding...</span>
+    </p>
+    </div>
+
+    <script>
+        async function search() {
+            let show = document.getElementById("movietext").value;
+            if(show == "")
+        {
+            alert("enter show name ")
+            return;
+        }
+        try{
+            let response = await fetch(  `https://api.tvmaze.com/search/shows?q=${show}`
+        );
+        let data = await response.json();
+        document.getElementById("movietext").value = "";
+        document.getElementById("poster").src =
+    data[0].show.image.medium;
+        document.getElementById("showname").innerText = data[0].show.name;
+        document.getElementById("lang").innerText = data[0].show.language;
+        document.getElementById("rate").innerText = data[0].show.rating.average;
+        document.getElementById("release").innerText = data[0].show.premiered;
+      
+          }
+    catch(error)
+    {
+        alert("Show Not Found");
+    }
+}
+    </script>
+
+    
+</body>
+</html>
